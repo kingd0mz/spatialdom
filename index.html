@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>spatialdom · a word by Dominic C. Fargas Jr.</title>
+  <meta name="description" content="spatialdom — the spatial domain or realm within which phenomena, processes, or interactions occur or are expressed." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="spatialdom" />
+  <meta property="og:description" content="The spatial domain or realm within which phenomena, processes, or interactions occur or are expressed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://spatialdom.xyz/" />
+  <meta property="og:image" content="https://spatialdom.xyz/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon (replace with your own files when ready) -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Fonts (system stack) & Base Styles -->
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --panel: #111217;
+      --text: #e6e6e6;
+      --muted: #b7bec7;
+      --accent: #6ee7ff; /* soft cyan */
+      --border: #1b1d25;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #0ea5e9; /* sky */
+        --border: #e5e7eb;
+        --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+      }
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:radial-gradient(1200px 800px at 80% -10%, rgba(110,231,255,.12), transparent 60%),
+      radial-gradient(1000px 600px at 0% 110%, rgba(14,165,233,.10), transparent 60%), var(--bg);
+      color:var(--text);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    .wrap{max-width:860px; margin:0 auto; padding:56px 20px 64px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:28px}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit}
+    .logo{width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg, var(--accent), transparent 70%); color:#003243; font-weight:800; box-shadow:var(--shadow)}
+    .brand span{font-weight:700; letter-spacing:.2px}
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:28px 28px 22px;
+      box-shadow:var(--shadow);
+    }
+
+    h1{font-size: clamp(2rem, 5vw, 3rem); line-height:1.1; margin:0 0 12px}
+    .pronunciation{color:var(--muted); font-style:italic; margin-bottom:8px}
+    .pos{display:inline-block; font-variant: small-caps; letter-spacing:.6px; color:var(--muted); margin-bottom:18px}
+
+    ol.defs{margin:0 0 18px 1.2rem; padding:0}
+    ol.defs li{margin:0 0 10px}
+
+    .section{margin-top:18px; border-top:1px dashed var(--border); padding-top:18px}
+    .section h2{font-size:0.95rem; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+
+    .examples p{margin:6px 0}
+    blockquote{margin:0; padding-left:14px; border-left:3px solid var(--accent); color:var(--text)}
+
+    footer{margin-top:26px; color:var(--muted); font-size:.92rem; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    footer .links{display:flex; gap:14px}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{opacity:.9}
+
+    /* small helper button */
+    .copy{appearance:none; border:1px solid var(--border); background:transparent; color:var(--text); padding:8px 10px; border-radius:10px; cursor:pointer}
+    .copy:active{transform:translateY(1px)}
+
+    /* responsive */
+    @media (max-width: 560px){
+      .wrap{padding:40px 16px 56px}
+      .card{padding:22px 18px}
+      footer{flex-direction:column; align-items:flex-start}
+    }
+  </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "spatialdom",
+    "inDefinedTermSet": "https://spatialdom.xyz/",
+    "termCode": "spatialdom",
+    "description": "The spatial domain or realm within which phenomena, processes, or interactions occur or are expressed; the geospatial context that defines the existence, distribution, and relationships of entities in space.",
+    "alternateName": "spatial-dom",
+    "creator": {
+      "@type": "Person",
+      "name": "Dominic C. Fargas Jr."
+    },
+    "dateCreated": "2025-01-01",
+    "subjectOf": [
+      {"@type": "Thing", "name": "Geography"},
+      {"@type": "Thing", "name": "Geomatics"},
+      {"@type": "Thing", "name": "Spatial Data Science"}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">SD</div>
+        <span>spatialdom</span>
+      </a>
+      <button class="copy" id="copyBtn" title="Copy definition to clipboard">Copy</button>
+    </header>
+
+    <main>
+      <article class="card" aria-labelledby="word-title">
+        <h1 id="word-title">spa·tial·dom</h1>
+        <div class="pronunciation">/ˈspā-shəl-dəm/</div>
+        <div class="pos">noun</div>
+
+        <ol class="defs">
+          <li>The spatial domain or realm within which phenomena, processes, or interactions occur or are expressed.</li>
+          <li>The geospatial context that defines the existence, distribution, and relationships of entities in space.</li>
+        </ol>
+
+        <section class="section examples" aria-labelledby="ex-label">
+          <h2 id="ex-label">Examples</h2>
+          <blockquote>Urban resilience must be understood within the city’s spatialdom.</blockquote>
+          <blockquote>The researchers mapped the spatialdom of deforestation across the region.</blockquote>
+        </section>
+
+        <section class="section" aria-labelledby="etymology-label">
+          <h2 id="etymology-label">Etymology</h2>
+          <p>from <em>spatial</em> (relating to space or location) + <em>-dom</em> (suffix denoting domain or realm, as in <em>kingdom</em>, <em>freedom</em>).</p>
+        </section>
+
+        <section class="section" aria-labelledby="firstuse-label">
+          <h2 id="firstuse-label">First Known Use</h2>
+          <p>2025, coined by <strong>Dominic C. Fargas Jr.</strong> in geospatial and smart-city research contexts.</p>
+        </section>
+
+        <section class="section" aria-labelledby="field-label">
+          <h2 id="field-label">Field</h2>
+          <p>Geography; Geomatics; Spatial Data Science.</p>
+        </section>
+      </article>
+
+      <footer>
+        <div>© <span id="year"></span> spatialdom.xyz</div>
+        <div class="links">
+          <a href="https://github.com/" rel="noopener" target="_blank" aria-label="GitHub">GitHub</a>
+          <a href="mailto:hello@spatialdom.xyz" aria-label="Email">Contact</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy button
+    const copyBtn = document.getElementById('copyBtn');
+    const text = `spatialdom (noun) — 1) The spatial domain or realm within which phenomena, processes, or interactions occur or are expressed. 2) The geospatial context that defines the existence, distribution, and relationships of entities in space.`;
+    copyBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1400);
+      }catch(e){
+        copyBtn.textContent = 'Copy failed';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1400);
+      }
+    });
+  </script>
+</body>
+</html>
