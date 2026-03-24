@@ -40,6 +40,9 @@ function HeroSection() {
               className="border-l border-border-subtle pl-4 lg:border-l-0 lg:pl-0"
             >
               <p className="text-sm uppercase tracking-[0.22em] text-text-strong">{hero.title}</p>
+              <p className="mt-4 max-w-[150px] text-sm leading-6 text-text-body">
+                Geospatial systems architecture and record infrastructure.
+              </p>
             </motion.div>
 
             <motion.div variants={fadeUp(Boolean(reducedMotion), 0.1)} className="max-w-[620px]">

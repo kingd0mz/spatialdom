@@ -1,7 +1,7 @@
 import Section from '../components/layout/Section';
 import Reveal from '../components/ui/Reveal';
 import SectionHeading from '../components/ui/SectionHeading';
-import { workItems } from '../data/siteContent';
+import { trustLine, workItems } from '../data/siteContent';
 
 function WorkSection() {
   return (
@@ -9,8 +9,11 @@ function WorkSection() {
       <SectionHeading
         eyebrow="Selected Work / Proof"
         title="Selective signals of system-building experience."
-        description="Not a gallery. A structural readout of the work already taking shape."
+        description="Not a gallery. A capability readout oriented around governance, records, workflows, and operational continuity."
       />
+      <p className="mt-6 max-w-[640px] text-sm uppercase tracking-[0.2em] text-text-faint">
+        {trustLine}
+      </p>
 
       <div className="relative mt-14 pl-8 sm:pl-12">
         <div className="absolute left-0 top-0 h-full w-px bg-[linear-gradient(to_bottom,var(--color-accent),var(--color-border),transparent)]" />

@@ -44,6 +44,12 @@ function DefinitionSection() {
                 </motion.p>
               ))}
             </div>
+            <motion.p
+              variants={fadeUp(Boolean(reducedMotion), 0.22)}
+              className="mt-8 max-w-[640px] border-t border-border-subtle pt-5 text-base leading-7 text-text-body sm:mt-10"
+            >
+              {definition.applied}
+            </motion.p>
           </div>
         </div>
       </motion.div>

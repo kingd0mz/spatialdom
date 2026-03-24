@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../components/layout/Section';
 import SectionHeading from '../components/ui/SectionHeading';
-import { systems } from '../data/siteContent';
+import { systems, systemsIntro } from '../data/siteContent';
 import { cn } from '../lib/cn';
 import { fadeUp, staggerContainer } from '../lib/motion';
 
@@ -17,6 +17,9 @@ function SystemsSection() {
         title="A domain architecture, not a list of products."
         description="The structure spans public taxation systems, parcel intelligence, private asset records, surveying operations, and training."
       />
+      <p className="mt-6 max-w-[720px] text-base leading-7 text-text-body sm:text-lg">
+        {systemsIntro}
+      </p>
 
       <div className="relative mt-14">
         <div className="pointer-events-none absolute inset-x-0 top-[7.5rem] hidden h-[31rem] xl:block">

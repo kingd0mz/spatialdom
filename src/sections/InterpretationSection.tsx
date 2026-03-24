@@ -1,6 +1,6 @@
 import Reveal from '../components/ui/Reveal';
 import Section from '../components/layout/Section';
-import { interpretation } from '../data/siteContent';
+import { authority, interpretation } from '../data/siteContent';
 
 function InterpretationSection() {
   return (
@@ -22,6 +22,14 @@ function InterpretationSection() {
           <p className="text-sm uppercase tracking-[0.18em] text-text-faint">{interpretation.detail}</p>
         </Reveal>
       </div>
+      <Reveal delay={0.16} className="mt-12 border-t border-border-subtle pt-5">
+        <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+          <p className="section-label">{authority.descriptor}</p>
+          <p className="max-w-[720px] text-base leading-7 text-text-secondary sm:text-lg">
+            {authority.line}
+          </p>
+        </div>
+      </Reveal>
     </Section>
   );
 }

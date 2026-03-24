@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Section from '../components/layout/Section';
 import Reveal from '../components/ui/Reveal';
-import { contact } from '../data/siteContent';
+import { contact, trustLine } from '../data/siteContent';
 
 function ContactSection() {
   const [copied, setCopied] = useState(false);
@@ -40,6 +40,7 @@ function ContactSection() {
             <p className="mt-5 max-w-[520px] text-base leading-7 text-text-body">
               For collaborations, systems, and inquiries, a direct line is enough.
             </p>
+            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-text-faint">{trustLine}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
               <button type="button" className="interactive-accent max-w-max" onClick={handleCopy}>
                 {copied ? 'Email copied' : 'Copy email'}
