@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-text-primary antialiased;
+    margin: 0;
+    min-width: 320px;
+    background-color: #000000;
+  }
+
+  * {
+    @apply border-border-subtle;
+  }
+
+  ::selection {
+    background: rgba(11, 61, 145, 0.48);
+    color: #ffffff;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply relative isolate min-h-screen overflow-x-hidden bg-background;
+  }
+
+  .container-shell {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  .section-shell {
+    @apply relative py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .section-label {
+    @apply text-[0.72rem] font-medium uppercase tracking-[0.24em] text-white/45;
+  }
+
+  .panel {
+    @apply shadow-panel backdrop-blur-sm;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .panel-elevated {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-link {
+    @apply text-sm text-white/70 transition-colors duration-300 hover:text-white;
+  }
+
+  .interactive-outline {
+    @apply rounded-full px-5 py-3 text-sm transition duration-300 ease-refined;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .interactive-accent {
+    @apply rounded-full px-5 py-3 text-sm text-white transition duration-300 ease-refined;
+    border: 1px solid rgba(11, 61, 145, 0.4);
+    background: rgba(11, 61, 145, 0.18);
+  }
+
+  .interactive-outline:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+
+  .interactive-accent:hover {
+    border-color: rgba(30, 91, 184, 0.6);
+    background: rgba(11, 61, 145, 0.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
