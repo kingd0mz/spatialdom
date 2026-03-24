@@ -26,13 +26,19 @@ npm run preview
 
 ## Deploy to GitHub Pages
 
-The site is static and deploys directly to GitHub Pages.
+The site is static and deploys to GitHub Pages from the built `dist/` output.
 
-```bash
-npm run deploy
-```
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` that:
 
-That publishes the contents of `dist/` to the `gh-pages` branch using the `gh-pages` package.
+- builds the Vite app on pushes to `master`
+- uploads `dist/`
+- publishes that artifact to GitHub Pages
+
+In the repository settings, set:
+
+- `Settings > Pages > Source` to `GitHub Actions`
+
+Do not publish from the repository root. The root `index.html` is the Vite source entry and points to `/src/main.tsx`, which GitHub Pages cannot serve as a browser module.
 
 ## Base path for GitHub Pages
 
