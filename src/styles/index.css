@@ -7,6 +7,86 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --color-background: #000000;
+    --color-surface: #050505;
+    --color-surface-elevated: #0a0a0a;
+    --color-surface-soft: rgba(255, 255, 255, 0.02);
+    --color-surface-overlay: rgba(255, 255, 255, 0.03);
+    --color-surface-strong: rgba(255, 255, 255, 0.04);
+    --color-surface-hover: rgba(255, 255, 255, 0.05);
+    --color-surface-nav: rgba(0, 0, 0, 0.75);
+    --color-surface-section-soft: rgba(255, 255, 255, 0.015);
+    --color-surface-section-elevated: rgba(255, 255, 255, 0.02);
+    --color-text-primary: #ffffff;
+    --color-text-strong: rgba(255, 255, 255, 0.88);
+    --color-text-secondary: rgba(255, 255, 255, 0.76);
+    --color-text-body: rgba(255, 255, 255, 0.62);
+    --color-text-muted: rgba(255, 255, 255, 0.45);
+    --color-text-faint: rgba(255, 255, 255, 0.4);
+    --color-text-subtle: rgba(255, 255, 255, 0.52);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.1);
+    --color-border-medium: rgba(255, 255, 255, 0.12);
+    --color-border-hover: rgba(255, 255, 255, 0.16);
+    --color-accent: #0b3d91;
+    --color-accent-hover: #1e5bb8;
+    --color-accent-soft: rgba(11, 61, 145, 0.18);
+    --color-accent-soft-strong: rgba(11, 61, 145, 0.25);
+    --color-selection: rgba(11, 61, 145, 0.48);
+    --shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.28);
+    --motif-top: radial-gradient(circle at top, rgba(255, 255, 255, 0.045), transparent 28%);
+    --motif-right: radial-gradient(circle at 80% 10%, rgba(11, 61, 145, 0.18), transparent 18%);
+    --motif-left: radial-gradient(circle at 10% 40%, rgba(255, 255, 255, 0.025), transparent 24%);
+    --motif-grid-line: rgba(255, 255, 255, 0.035);
+    --motif-line-1: rgba(255, 255, 255, 0.14);
+    --motif-line-2: rgba(11, 61, 145, 0.55);
+    --motif-line-3: rgba(255, 255, 255, 0.1);
+    --motif-dot-1: rgba(255, 255, 255, 0.32);
+    --motif-dot-2: rgba(11, 61, 145, 0.8);
+    --motif-glow: radial-gradient(circle, rgba(11, 61, 145, 0.16), transparent 68%);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --color-background: #f4f6f8;
+      --color-surface: #ffffff;
+      --color-surface-elevated: #eef2f6;
+      --color-surface-soft: rgba(15, 23, 42, 0.03);
+      --color-surface-overlay: rgba(15, 23, 42, 0.04);
+      --color-surface-strong: rgba(15, 23, 42, 0.055);
+      --color-surface-hover: rgba(15, 23, 42, 0.07);
+      --color-surface-nav: rgba(244, 246, 248, 0.82);
+      --color-surface-section-soft: rgba(15, 23, 42, 0.02);
+      --color-surface-section-elevated: rgba(15, 23, 42, 0.028);
+      --color-text-primary: #081018;
+      --color-text-strong: rgba(8, 16, 24, 0.9);
+      --color-text-secondary: rgba(8, 16, 24, 0.76);
+      --color-text-body: rgba(8, 16, 24, 0.62);
+      --color-text-muted: rgba(8, 16, 24, 0.48);
+      --color-text-faint: rgba(8, 16, 24, 0.38);
+      --color-text-subtle: rgba(8, 16, 24, 0.52);
+      --color-border: rgba(8, 16, 24, 0.08);
+      --color-border-strong: rgba(8, 16, 24, 0.1);
+      --color-border-medium: rgba(8, 16, 24, 0.12);
+      --color-border-hover: rgba(8, 16, 24, 0.16);
+      --color-accent: #0b3d91;
+      --color-accent-hover: #1e5bb8;
+      --color-accent-soft: rgba(11, 61, 145, 0.1);
+      --color-accent-soft-strong: rgba(11, 61, 145, 0.14);
+      --color-selection: rgba(11, 61, 145, 0.22);
+      --shadow-panel: 0 24px 64px rgba(8, 16, 24, 0.08);
+      --motif-top: radial-gradient(circle at top, rgba(8, 16, 24, 0.035), transparent 28%);
+      --motif-right: radial-gradient(circle at 80% 10%, rgba(11, 61, 145, 0.12), transparent 18%);
+      --motif-left: radial-gradient(circle at 10% 40%, rgba(8, 16, 24, 0.02), transparent 24%);
+      --motif-grid-line: rgba(8, 16, 24, 0.04);
+      --motif-line-1: rgba(8, 16, 24, 0.14);
+      --motif-line-2: rgba(11, 61, 145, 0.45);
+      --motif-line-3: rgba(8, 16, 24, 0.1);
+      --motif-dot-1: rgba(8, 16, 24, 0.28);
+      --motif-dot-2: rgba(11, 61, 145, 0.72);
+      --motif-glow: radial-gradient(circle, rgba(11, 61, 145, 0.08), transparent 68%);
+    }
   }
 
   html {
@@ -17,7 +97,7 @@
     @apply bg-background font-sans text-text-primary antialiased;
     margin: 0;
     min-width: 320px;
-    background-color: #000000;
+    background-color: var(--color-background);
   }
 
   * {
@@ -25,8 +105,8 @@
   }
 
   ::selection {
-    background: rgba(11, 61, 145, 0.48);
-    color: #ffffff;
+    background: var(--color-selection);
+    color: var(--color-text-primary);
   }
 
   a,
@@ -49,49 +129,81 @@
   }
 
   .section-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--color-border);
   }
 
   .section-label {
-    @apply text-[0.72rem] font-medium uppercase tracking-[0.24em] text-white/45;
+    @apply text-[0.72rem] font-medium uppercase tracking-[0.24em] text-text-muted;
   }
 
   .panel {
     @apply shadow-panel backdrop-blur-sm;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-overlay);
   }
 
   .panel-elevated {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--color-surface-strong);
   }
 
   .nav-link {
-    @apply text-sm text-white/70 transition-colors duration-300 hover:text-white;
+    @apply text-sm text-text-secondary transition-colors duration-300 hover:text-text-primary;
   }
 
   .interactive-outline {
     @apply rounded-full px-5 py-3 text-sm transition duration-300 ease-refined;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.02);
-    color: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface-soft);
+    color: var(--color-text-secondary);
   }
 
   .interactive-accent {
-    @apply rounded-full px-5 py-3 text-sm text-white transition duration-300 ease-refined;
-    border: 1px solid rgba(11, 61, 145, 0.4);
-    background: rgba(11, 61, 145, 0.18);
+    @apply rounded-full px-5 py-3 text-sm text-text-primary transition duration-300 ease-refined;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+    background: var(--color-accent-soft);
   }
 
   .interactive-outline:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.05);
-    color: #ffffff;
+    border-color: var(--color-border-hover);
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
   }
 
   .interactive-accent:hover {
-    border-color: rgba(30, 91, 184, 0.6);
-    background: rgba(11, 61, 145, 0.25);
+    border-color: color-mix(in srgb, var(--color-accent-hover) 60%, transparent);
+    background: var(--color-accent-soft-strong);
+  }
+
+  .theme-chip {
+    @apply rounded-full border border-border-strong bg-surface-overlay;
+  }
+
+  .theme-icon-button {
+    @apply border border-border-strong bg-surface-overlay text-text-strong hover:border-border-hover hover:bg-surface-hover;
+  }
+
+  .theme-nav-scrolled {
+    @apply border-border-strong bg-surface-nav shadow-panel backdrop-blur-xl;
+  }
+
+  .theme-mobile-nav {
+    @apply border-t border-border-subtle;
+  }
+
+  .theme-mobile-link {
+    @apply rounded-2xl border border-border-subtle bg-surface-soft text-sm text-text-secondary transition duration-300 hover:border-border-medium hover:bg-surface-hover hover:text-text-primary;
+  }
+
+  .theme-card {
+    @apply border border-border-strong bg-surface-soft;
+  }
+
+  .theme-list {
+    @apply divide-y divide-border-subtle border border-border-subtle bg-surface-soft;
+  }
+
+  .theme-list-item:hover {
+    background: var(--color-surface-overlay);
   }
 }
 

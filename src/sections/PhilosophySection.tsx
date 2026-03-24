@@ -23,9 +23,9 @@ function PhilosophySection() {
             <motion.div
               key={statement}
               variants={fadeUp(Boolean(reducedMotion), index * 0.03)}
-              className="rounded-[1.5rem] border border-white/8 bg-white/[0.02] px-5 py-5 text-center sm:px-8 sm:py-6"
+              className="theme-card rounded-[1.5rem] px-5 py-5 text-center sm:px-8 sm:py-6"
             >
-              <p className="text-[clamp(1.25rem,2.4vw,1.75rem)] font-medium leading-[1.3] tracking-[-0.04em] text-white">
+              <p className="text-[clamp(1.25rem,2.4vw,1.75rem)] font-medium leading-[1.3] tracking-[-0.04em] text-text-primary">
                 {statement}
               </p>
             </motion.div>

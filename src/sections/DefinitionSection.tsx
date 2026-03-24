@@ -9,7 +9,7 @@ function DefinitionSection() {
   return (
     <Section id="definition" divider={false} className="pb-14 pt-8 sm:pt-10">
       <motion.div
-        className="mx-auto max-w-narrow rounded-[2rem] border border-white/10 bg-white/[0.025] px-6 py-10 text-center shadow-panel backdrop-blur-sm sm:px-10 sm:py-14"
+        className="mx-auto max-w-narrow rounded-[2rem] border border-border-strong bg-surface-soft px-6 py-10 text-center shadow-panel backdrop-blur-sm sm:px-10 sm:py-14"
         variants={staggerContainer(Boolean(reducedMotion), 0.1)}
         initial="hidden"
         whileInView="visible"
@@ -20,7 +20,7 @@ function DefinitionSection() {
         </motion.p>
         <motion.p
           variants={fadeUp(Boolean(reducedMotion), 0.04)}
-          className="mx-auto mt-6 max-w-[620px] text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.18] tracking-[-0.05em] text-white"
+          className="mx-auto mt-6 max-w-[620px] text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.18] tracking-[-0.05em] text-text-primary"
         >
           {definition.statement}
         </motion.p>
@@ -29,7 +29,7 @@ function DefinitionSection() {
             <motion.p
               key={line}
               variants={fadeUp(Boolean(reducedMotion), index * 0.03)}
-              className="text-lg leading-8 text-white/72 sm:text-[1.25rem]"
+              className="text-lg leading-8 text-text-secondary sm:text-[1.25rem]"
             >
               {line}
             </motion.p>

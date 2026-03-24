@@ -32,7 +32,7 @@ function ContactSection() {
           <div className="panel rounded-[1.75rem] p-6 sm:p-8">
             <a
               href={`mailto:${contact.email}`}
-              className="block text-[clamp(1.4rem,2.6vw,2rem)] font-semibold tracking-[-0.05em] text-white transition-colors duration-300 hover:text-white/84"
+              className="block text-[clamp(1.4rem,2.6vw,2rem)] font-semibold tracking-[-0.05em] text-text-primary transition-colors duration-300 hover:text-text-strong"
             >
               {contact.email}
             </a>

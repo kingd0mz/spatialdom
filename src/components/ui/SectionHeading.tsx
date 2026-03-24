@@ -16,11 +16,11 @@ function SectionHeading({
   return (
     <div className={cn('max-w-prose', align === 'center' && 'mx-auto text-center')}>
       {eyebrow ? <p className="section-label">{eyebrow}</p> : null}
-      <h2 className="mt-4 text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.08] tracking-[-0.04em] text-white">
+      <h2 className="mt-4 text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.08] tracking-[-0.04em] text-text-primary">
         {title}
       </h2>
       {description ? (
-        <p className="mt-5 text-base leading-7 text-white/60 sm:text-lg">{description}</p>
+        <p className="mt-5 text-base leading-7 text-text-body sm:text-lg">{description}</p>
       ) : null}
     </div>
   );

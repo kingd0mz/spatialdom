@@ -12,22 +12,22 @@ function WorkSection() {
         description="Not a portfolio grid. Just enough proof to show the thinking is backed by execution."
       />
 
-      <div className="mt-12 divide-y divide-white/8 rounded-[1.75rem] border border-white/8 bg-white/[0.02]">
+      <div className="theme-list mt-12 rounded-[1.75rem]">
         {workItems.map((item, index) => (
           <Reveal
             key={item.name}
             as="article"
             delay={index * 0.03}
-            className="group px-5 py-6 transition-colors duration-300 hover:bg-white/[0.025] sm:px-8 sm:py-7"
+            className="theme-list-item group px-5 py-6 transition-colors duration-300 sm:px-8 sm:py-7"
           >
             <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-white/40">{item.lens}</p>
-                <h3 className="mt-3 text-[1.2rem] font-semibold tracking-[-0.04em] text-white transition-colors duration-300 group-hover:text-white">
+                <p className="text-xs uppercase tracking-[0.22em] text-text-faint">{item.lens}</p>
+                <h3 className="mt-3 text-[1.2rem] font-semibold tracking-[-0.04em] text-text-primary transition-colors duration-300 group-hover:text-text-primary">
                   {item.name}
                 </h3>
               </div>
-              <p className="max-w-[620px] text-base leading-7 text-white/62 transition-colors duration-300 group-hover:text-white/74">
+              <p className="max-w-[620px] text-base leading-7 text-text-body transition-colors duration-300 group-hover:text-text-secondary">
                 {item.description}
               </p>
             </div>

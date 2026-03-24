@@ -24,8 +24,8 @@ function Section({
       className={cn(
         'section-shell scroll-mt-24 sm:scroll-mt-28',
         divider && 'section-divider',
-        tone === 'soft' && 'bg-white/[0.015]',
-        tone === 'elevated' && 'bg-white/[0.02]',
+        tone === 'soft' && 'bg-surface-section-soft',
+        tone === 'elevated' && 'bg-surface-section-elevated',
         className
       )}
     >

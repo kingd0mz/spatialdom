@@ -32,8 +32,8 @@ function SystemsSection() {
                 ? undefined
                 : {
                     scale: 1.02,
-                    borderColor: 'rgba(255,255,255,0.16)',
-                    backgroundColor: 'rgba(255,255,255,0.05)'
+                    borderColor: 'var(--color-border-hover)',
+                    backgroundColor: 'var(--color-surface-hover)'
                   }
             }
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
@@ -43,10 +43,10 @@ function SystemsSection() {
             )}
           >
             <p className="section-label">{system.category}</p>
-            <h3 className="mt-5 text-[1.4rem] font-semibold tracking-[-0.04em] text-white">
+            <h3 className="mt-5 text-[1.4rem] font-semibold tracking-[-0.04em] text-text-primary">
               {system.name}
             </h3>
-            <p className="mt-5 text-base leading-7 text-white/62">{system.description}</p>
+            <p className="mt-5 text-base leading-7 text-text-body">{system.description}</p>
           </motion.article>
         ))}
       </motion.div>
