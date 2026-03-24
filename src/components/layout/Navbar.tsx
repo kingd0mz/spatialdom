@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { navItems } from '../../data/siteContent';
+import { navItems, portfolioUrl } from '../../data/siteContent';
 import { cn } from '../../lib/cn';
 import { fadeUp } from '../../lib/motion';
 import { useScrolled } from '../../hooks/useScrolled';
@@ -44,13 +44,24 @@ function Navbar() {
             <span className="text-sm uppercase tracking-[0.18em] text-text-strong">Spatialdom</span>
           </a>
 
-          <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="nav-link">
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          <div className="hidden items-center gap-4 md:flex">
+            <nav className="flex items-center gap-7" aria-label="Primary">
+              {navItems.map((item) => (
+                <a key={item.href} href={item.href} className="nav-link">
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <a
+              href={portfolioUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="interactive-outline inline-flex items-center"
+            >
+              Portfolio
+            </a>
+          </div>
 
           <button
             type="button"
@@ -102,6 +113,15 @@ function Navbar() {
                   {item.label}
                 </a>
               ))}
+              <a
+                href={portfolioUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="theme-mobile-link px-4 py-3"
+                onClick={() => setMenuOpen(false)}
+              >
+                Portfolio
+              </a>
             </motion.nav>
           ) : null}
         </AnimatePresence>

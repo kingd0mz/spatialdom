@@ -23,6 +23,8 @@ export const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' }
 ];
 
+export const portfolioUrl = 'https://me.spatialdom.xyz';
+
 export const hero = {
   label: 'Spatial systems / Record architecture / Decision infrastructure',
   lead: 'Everything happens somewhere.',
