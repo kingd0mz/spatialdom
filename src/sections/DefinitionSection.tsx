@@ -9,31 +9,42 @@ function DefinitionSection() {
   return (
     <Section id="definition" divider={false} className="pb-14 pt-8 sm:pt-10">
       <motion.div
-        className="mx-auto max-w-narrow rounded-[2rem] border border-border-strong bg-surface-soft px-6 py-10 text-center shadow-panel backdrop-blur-sm sm:px-10 sm:py-14"
+        className="definition-frame mx-auto max-w-[980px] px-0 py-10 sm:py-14"
         variants={staggerContainer(Boolean(reducedMotion), 0.1)}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <motion.p variants={fadeUp(Boolean(reducedMotion))} className="section-label">
-          {definition.term} ({definition.type})
-        </motion.p>
-        <motion.p
-          variants={fadeUp(Boolean(reducedMotion), 0.04)}
-          className="mx-auto mt-6 max-w-[620px] text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.18] tracking-[-0.05em] text-text-primary"
-        >
-          {definition.statement}
-        </motion.p>
-        <div className="mt-8 space-y-3 sm:mt-10">
-          {definition.lines.map((line, index) => (
+        <div className="grid gap-10 px-1 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14">
+          <motion.div variants={fadeUp(Boolean(reducedMotion))} className="space-y-3 lg:pt-1">
+            <p className="text-[clamp(1.35rem,2.4vw,1.8rem)] font-semibold tracking-[-0.05em] text-text-primary">
+              {definition.term}
+            </p>
+            <p className="text-sm uppercase tracking-[0.18em] text-text-faint">
+              {definition.pronunciation}
+            </p>
+            <p className="section-label">{definition.type}</p>
+          </motion.div>
+
+          <div>
             <motion.p
-              key={line}
-              variants={fadeUp(Boolean(reducedMotion), index * 0.03)}
-              className="text-lg leading-8 text-text-secondary sm:text-[1.25rem]"
+              variants={fadeUp(Boolean(reducedMotion), 0.04)}
+              className="max-w-[680px] text-[clamp(1.5rem,3vw,2.4rem)] font-semibold leading-[1.14] tracking-[-0.05em] text-text-primary"
             >
-              {line}
+              {definition.statement}
             </motion.p>
-          ))}
+            <div className="mt-8 grid gap-3 sm:mt-10 sm:gap-4">
+              {definition.lines.map((line, index) => (
+                <motion.p
+                  key={line}
+                  variants={fadeUp(Boolean(reducedMotion), 0.08 + index * 0.04)}
+                  className="text-lg leading-8 text-text-secondary sm:text-[1.18rem]"
+                >
+                  {line}
+                </motion.p>
+              ))}
+            </div>
+          </div>
         </div>
       </motion.div>
     </Section>

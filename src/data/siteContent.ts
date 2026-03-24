@@ -4,9 +4,11 @@ export type NavItem = {
 };
 
 export type SystemItem = {
+  code: string;
   name: string;
   category: string;
   description: string;
+  emphasis: 'primary' | 'secondary';
 };
 
 export type WorkItem = {
@@ -22,14 +24,17 @@ export const navItems: NavItem[] = [
 ];
 
 export const hero = {
-  label: 'Spatial systems / Geospatial infrastructure / Decision architecture',
+  label: 'Spatial systems / Record architecture / Decision infrastructure',
+  lead: 'Everything happens somewhere.',
   title: 'Spatialdom',
-  primaryLine: 'A domain where systems, decisions, and intelligence are grounded in space.',
-  secondaryLine: 'Geospatial systems. Infrastructure. Decision platforms.'
+  primaryLine: 'A concept brand and operating domain for geospatial systems, durable records, and decision architecture.',
+  secondaryLine: 'Parcel logic. Field intelligence. Durable spatial records.',
+  signals: ['Parcel logic', 'Field-to-record workflows', 'Georeferenced assets']
 };
 
 export const definition = {
   term: 'spa\u00B7tial\u00B7dom',
+  pronunciation: '/ˈspā-shəl-dəm/',
   type: 'noun',
   statement: 'The domain of systems, decisions, and intelligence grounded in space.',
   lines: [
@@ -41,35 +46,44 @@ export const definition = {
 
 export const interpretation = {
   lines: ['Every system operates somewhere.', 'Most ignore it.', 'Spatialdom acknowledges it.', 'And builds around it.'],
-  detail:
-    'The work sits between infrastructure, operational software, and decision support. It treats geography as first-order architecture rather than presentation.'
+  detail: 'Location, topology, and field reality are treated as first-order architecture.'
 };
 
 export const systems: SystemItem[] = [
   {
+    code: '01',
     name: 'SPARTA',
     category: 'Tax mapping for LGUs',
-    description: 'Parcel-based taxation systems for local governments where mapping, records, and revenue logic remain structurally aligned.'
+    description: 'Parcel-based taxation systems for local governments where mapping, records, and revenue logic remain structurally aligned.',
+    emphasis: 'primary'
   },
   {
+    code: '02',
     name: 'Parcel Truth Records',
     category: 'Structured parcel intelligence',
-    description: 'An append-only model for parcel intelligence where records are durable, auditable, and ready for downstream decision platforms.'
+    description: 'An append-only model for parcel intelligence where records are durable, auditable, and ready for downstream decision platforms.',
+    emphasis: 'primary'
   },
   {
+    code: '03',
     name: 'Asset Registry',
     category: 'Private asset records',
-    description: 'A Spatialdom registry model for private individuals who need traceable asset records grounded in parcels, location, and history.'
+    description: 'A Spatialdom registry model for private individuals who need traceable asset records grounded in parcels, location, and history.',
+    emphasis: 'secondary'
   },
   {
+    code: '04',
     name: 'Spatialdom Surveying',
     category: 'Survey operations',
-    description: 'Surveying workflows designed to connect field capture, parcel structure, and downstream records without fragmentation.'
+    description: 'Surveying workflows designed to connect field capture, parcel structure, and downstream records without fragmentation.',
+    emphasis: 'secondary'
   },
   {
+    code: '05',
     name: 'Spatialdom Academy',
     category: 'Training systems',
-    description: 'Training programs for teams adopting spatial thinking, geospatial workflows, and operational discipline as system foundations.'
+    description: 'Training programs for teams adopting spatial thinking, geospatial workflows, and operational discipline as system foundations.',
+    emphasis: 'secondary'
   }
 ];
 
@@ -77,27 +91,27 @@ export const workItems: WorkItem[] = [
   {
     name: 'SPARTA',
     lens: 'Public-sector revenue systems',
-    description: 'Tax mapping for LGUs built around parcel logic, administrative clarity, and durable spatial records.'
+    description: 'Geospatial governance systems for LGUs built around parcel logic, administrative clarity, and durable spatial records.'
   },
   {
     name: 'Parcel Truth Records',
     lens: 'Spatial record architecture',
-    description: 'A record model for parcel intelligence that prioritizes append-only structure, auditability, and long-term trust.'
+    description: 'Spatial record architecture for append-only parcel intelligence and decision-support infrastructure.'
   },
   {
     name: 'Asset Registry',
     lens: 'Private ownership systems',
-    description: 'A registry direction for private individuals who need structured asset visibility across parcels, documents, and history.'
+    description: 'Georeferenced assets and ownership records structured for traceability, audit, and continuity.'
   },
   {
     name: 'Spatialdom Surveying',
     lens: 'Field-to-record operations',
-    description: 'Surveying positioned as infrastructure: precise in the field, structured in the record, and useful downstream.'
+    description: 'Field-to-record workflows that keep measurements, parcel boundaries, and downstream systems aligned.'
   },
   {
     name: 'Spatialdom Academy',
     lens: 'Training and capability building',
-    description: 'A training layer for organizations and practitioners who need spatial systems literacy, not just software exposure.'
+    description: 'Training systems that teach spatial reasoning, governance workflows, and disciplined implementation.'
   }
 ];
 
@@ -109,6 +123,8 @@ export const philosophy = [
 ];
 
 export const contact = {
-  email: 'dcfargas@up.edu.ph',
+  label: 'Direct line',
+  context: 'For parcel logic, field systems, asset registries, surveying, and training.',
+  email: 'spatialdom@gmail.com',
   github: 'https://github.com/kingd0mz/'
 };

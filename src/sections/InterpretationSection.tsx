@@ -5,18 +5,21 @@ import { interpretation } from '../data/siteContent';
 function InterpretationSection() {
   return (
     <Section id="about" tone="soft" className="py-20 sm:py-24 lg:py-28">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
-        <Reveal className="max-w-[720px]">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
+        <Reveal className="max-w-[860px]">
           <p className="section-label">Interpretation</p>
-          <div className="mt-5 space-y-3 text-[clamp(1.6rem,3.5vw,2.8rem)] font-semibold leading-[1.08] tracking-[-0.06em] text-text-primary">
+          <div className="mt-6 space-y-3 text-[clamp(1.9rem,4.4vw,3.65rem)] font-semibold leading-[1.04] tracking-[-0.065em] text-text-primary">
             {interpretation.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
           </div>
         </Reveal>
 
-        <Reveal delay={0.12} className="max-w-[420px] lg:justify-self-end">
-          <p className="text-base leading-7 text-text-body sm:text-lg">{interpretation.detail}</p>
+        <Reveal
+          delay={0.12}
+          className="max-w-[220px] border-l border-border-subtle pl-5 lg:justify-self-end lg:pb-2"
+        >
+          <p className="text-sm uppercase tracking-[0.18em] text-text-faint">{interpretation.detail}</p>
         </Reveal>
       </div>
     </Section>

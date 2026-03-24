@@ -205,6 +205,99 @@
   .theme-list-item:hover {
     background: var(--color-surface-overlay);
   }
+
+  .theme-text-link {
+    @apply text-sm uppercase tracking-[0.18em] text-text-body transition-colors duration-300 hover:text-text-primary;
+  }
+
+  .definition-frame {
+    position: relative;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .definition-frame::before,
+  .definition-frame::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 88px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    opacity: 0.8;
+  }
+
+  .definition-frame::before {
+    top: -1px;
+  }
+
+  .definition-frame::after {
+    bottom: -1px;
+  }
+
+  .system-node {
+    @apply panel relative overflow-hidden;
+  }
+
+  .system-node::before {
+    content: '';
+    position: absolute;
+    inset: 18px 24px auto;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-border-medium), transparent);
+    opacity: 0.65;
+  }
+
+  .system-node::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    width: 42px;
+    height: 42px;
+    border-top: 1px solid var(--color-border-medium);
+    border-right: 1px solid var(--color-border-medium);
+    opacity: 0.7;
+  }
+
+  .contact-frame {
+    position: relative;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .contact-frame::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    right: 0;
+    width: 96px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent));
+    opacity: 0.9;
+  }
+
+  .manifesto-line {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor [role='button'],
+  html.has-custom-cursor [data-cursor] {
+    cursor: none !important;
+  }
+
+  html.has-custom-cursor input,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor select,
+  html.has-custom-cursor [contenteditable='true'] {
+    cursor: auto !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

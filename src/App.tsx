@@ -2,6 +2,7 @@ import { MotionConfig } from 'framer-motion';
 import AppShell from './components/layout/AppShell';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
+import CustomCursor from './components/ui/CustomCursor';
 import ContactSection from './sections/ContactSection';
 import DefinitionSection from './sections/DefinitionSection';
 import HeroSection from './sections/HeroSection';
@@ -14,6 +15,7 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
       <AppShell>
+        <CustomCursor />
         <Navbar />
         <main>
           <HeroSection />
