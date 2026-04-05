@@ -1,12 +1,19 @@
-function ToolAdSlot() {
+type ToolAdSlotProps = {
+  label?: string;
+  className?: string;
+};
+
+function ToolAdSlot({ label = 'Ad Slot', className = '' }: ToolAdSlotProps) {
   return (
     <aside
-      className="panel rounded-[1.75rem] px-5 py-6 text-center"
-      aria-label="Advertisement placeholder"
+      className={`panel rounded-[1.75rem] px-5 py-6 text-center ${className}`.trim()}
+      aria-label={label}
     >
-      {/* Google AdSense script/component can be mounted here later for tool pages only. */}
-      <p className="section-label">Ad Slot</p>
-      <p className="mt-3 text-sm leading-6 text-text-body">Reserved for future AdSense placement on tool pages.</p>
+      {/* Mount the production ad unit here for tool pages. */}
+      <p className="section-label">{label}</p>
+      <p className="mt-3 text-sm leading-6 text-text-body">
+        Advertising supports Spatialdom tools so they can stay available to users at no direct cost.
+      </p>
     </aside>
   );
 }

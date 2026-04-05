@@ -33,27 +33,27 @@ function PrivacyPage() {
               <section className="space-y-2">
                 <h2 className="text-lg font-semibold text-text-primary">Cookies</h2>
                 <p>
-                  Spatialdom may use basic cookies or similar browser storage in the future to support site
-                  functionality, preferences, and advertising integrations. If those features are added, this page
-                  should be updated to reflect the actual behavior in use.
+                  Spatialdom uses cookies or similar browser technologies to support site functionality, remember basic
+                  preferences, and help advertising services operate correctly on eligible tool pages.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h2 className="text-lg font-semibold text-text-primary">Google AdSense</h2>
                 <p>
-                  Tools pages may include Google AdSense placements in the future. AdSense can use cookies or similar
-                  technologies to serve and measure ads. At the moment, this site only includes placeholder areas for
-                  future ad slots and does not claim that AdSense is active unless and until it is actually enabled.
+                  Spatialdom tools may display ads served through third-party advertising services such as Google
+                  AdSense. Those services can use cookies or similar technologies to deliver, personalize, and measure
+                  advertising. Advertising helps keep Spatialdom systems running and available to users at no direct
+                  monetary cost.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h2 className="text-lg font-semibold text-text-primary">Analytics</h2>
                 <p>
-                  Analytics may be added later to understand basic site usage, performance, and which tools are useful.
-                  If analytics are introduced, this policy should be updated with the specific provider and data-handling
-                  details.
+                  Spatialdom may also use basic analytics tools to understand site usage, improve performance, and learn
+                  which tools are most useful. If analytics are active, they may collect standard usage information such
+                  as page views, device context, and interaction patterns.
                 </p>
               </section>
 

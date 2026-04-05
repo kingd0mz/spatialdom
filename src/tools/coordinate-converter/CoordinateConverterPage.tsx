@@ -351,7 +351,7 @@ function CoordinateConverterPage() {
         </section>
 
         <div className="pt-2">
-          <ToolAdSlot />
+          <ToolAdSlot label="Bottom Banner" />
         </div>
       </div>
     </ToolLayout>
