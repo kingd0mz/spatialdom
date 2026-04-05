@@ -12,7 +12,6 @@ import {
   type DmsAngle,
   type Luzon1911Zone
 } from '../../shared/utils/coordinates';
-import ToolAdSlot from '../../shared/ads/ToolAdSlot';
 import ToolLayout from '../../shared/layout/ToolLayout';
 
 type ConversionMode = 'geographic-to-grid' | 'grid-to-geographic';
@@ -255,6 +254,7 @@ function CoordinateConverterPage() {
     <ToolLayout
       title="Coordinate Converter"
       intro="Convert Luzon 1911 geographic coordinates and Luzon 1911 grid coordinates for common Philippine workflows. Inputs support longitude/latitude with zone, or PTM X / PTM Y with zone, and angular values can be handled in decimal degrees or DMS."
+      showAds
     >
       <div className="mx-auto grid max-w-5xl gap-6">
         <section className="panel rounded-[2rem] p-4 sm:p-6">
@@ -546,10 +546,6 @@ function CoordinateConverterPage() {
             </div>
           </div>
         </section>
-
-        <div className="pt-2">
-          <ToolAdSlot label="Bottom Banner" />
-        </div>
       </div>
     </ToolLayout>
   );

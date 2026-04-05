@@ -5,9 +5,10 @@ import ToolAdSlot from '../ads/ToolAdSlot';
 type ToolLayoutProps = PropsWithChildren<{
   title: string;
   intro: string;
+  showAds?: boolean;
 }>;
 
-function ToolLayout({ title, intro, children }: ToolLayoutProps) {
+function ToolLayout({ title, intro, children, showAds = false }: ToolLayoutProps) {
   return (
     <main className="pb-16 pt-32 sm:pt-36">
       <Container>
@@ -20,17 +21,25 @@ function ToolLayout({ title, intro, children }: ToolLayoutProps) {
             </div>
           </header>
 
-          <div className="grid gap-6 xl:grid-cols-[180px_minmax(0,1fr)_180px] xl:items-start">
-            <div className="hidden xl:block xl:sticky xl:top-28">
-              <ToolAdSlot label="Left Banner" className="min-h-[520px]" />
-            </div>
+          {showAds ? (
+            <div className="space-y-6">
+              <div className="grid gap-6 lg:grid-cols-[180px_minmax(0,1fr)_180px] lg:items-start">
+                <div className="hidden lg:block lg:sticky lg:top-28">
+                  <ToolAdSlot label="Left Banner" className="min-h-[520px]" />
+                </div>
 
+                <div>{children}</div>
+
+                <div className="hidden lg:block lg:sticky lg:top-28">
+                  <ToolAdSlot label="Right Banner" className="min-h-[520px]" />
+                </div>
+              </div>
+
+              <ToolAdSlot label="Bottom Banner" />
+            </div>
+          ) : (
             <div>{children}</div>
-
-            <div className="hidden xl:block xl:sticky xl:top-28">
-              <ToolAdSlot label="Right Banner" className="min-h-[520px]" />
-            </div>
-          </div>
+          )}
         </div>
       </Container>
     </main>
