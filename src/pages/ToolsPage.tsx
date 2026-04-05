@@ -11,8 +11,8 @@ const tools = [
   {
     title: 'GeoJSON Viewer',
     description: 'Inspect features, coordinates, and geometry structure directly in the browser.',
-    href: '#',
-    status: 'coming soon' as const
+    href: '/tools/geojson-viewer',
+    status: 'live' as const
   },
   {
     title: 'Area & Distance Calculator',
