@@ -221,8 +221,7 @@ export function decimalDegreesToDms(value: number, axis: CoordinateAxis) {
   const minutesFloat = (absolute - degrees) * 60;
   const minutes = Math.floor(minutesFloat);
   const seconds = Number(((minutesFloat - minutes) * 60).toFixed(4));
-  const direction =
-    axis === 'latitude' ? (value >= 0 ? 'N' : 'S') : value >= 0 ? 'E' : 'W';
+  const direction = axis === 'latitude' ? (value >= 0 ? 'N' : 'S') : value >= 0 ? 'E' : 'W';
 
   return {
     degrees,
@@ -256,8 +255,7 @@ export function dmsToDecimalDegrees(angle: DmsAngle, axis: CoordinateAxis) {
     throw new Error('Minutes and seconds must be between 0 and 59.9999.');
   }
 
-  const sign =
-    angle.direction === 'S' || angle.direction === 'W' ? -1 : 1;
+  const sign = angle.direction === 'S' || angle.direction === 'W' ? -1 : 1;
 
   return sign * (degrees + minutes / 60 + seconds / 3600);
 }

@@ -11,7 +11,7 @@ import {
   type AngularFormat,
   type DmsAngle,
   type Luzon1911Zone
-} from '../../lib/coordinates';
+} from '../../shared/utils/coordinates';
 import ToolAdSlot from '../../shared/ads/ToolAdSlot';
 import ToolPageLayout from '../../shared/layout/ToolPageLayout';
 
