@@ -1,6 +1,6 @@
-﻿# Spatialdom
+# Spatialdom
 
-Single-page brand site for `spatialdom.xyz`, built with React, Vite, TypeScript, Tailwind CSS, and Framer Motion.
+Frontend-only site for `spatialdom.xyz`, built with React, Vite, TypeScript, Tailwind CSS, and Framer Motion. The homepage remains the core brand experience, while a separate `/tools/*` route family supports lightweight geospatial micro tools.
 
 ## Stack
 
@@ -9,6 +9,7 @@ Single-page brand site for `spatialdom.xyz`, built with React, Vite, TypeScript,
 - TypeScript
 - Tailwind CSS
 - Framer Motion
+- React Router
 
 ## Run locally
 
@@ -24,6 +25,8 @@ npm run build
 npm run preview
 ```
 
+`npm run build` now prepares GitHub Pages output by copying `dist/index.html` to `dist/404.html` so React Router routes can resolve on direct refresh.
+
 ## Deploy to GitHub Pages
 
 The site is static and deploys to GitHub Pages from the built `dist/` output.
@@ -33,6 +36,7 @@ This repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.
 - builds the Vite app on pushes to `master`
 - uploads `dist/`
 - publishes that artifact to GitHub Pages
+- preserves SPA routing support through the generated `404.html` fallback
 
 In the repository settings, set:
 
@@ -67,6 +71,39 @@ VITE_BASE_PATH=/repo-name/ npm run build
 - Keep `public/CNAME` committed with the domain value.
 - GitHub Pages will copy it into the deployed output automatically.
 - If the custom domain changes, update `public/CNAME`.
+- For `spatialdom.xyz`, point the DNS records to GitHub Pages and keep the custom domain configured in `Settings > Pages`.
+
+## Deployment checklist
+
+1. Push to `master` or run the Pages workflow manually.
+2. Confirm GitHub Pages is set to `GitHub Actions`.
+3. Confirm `public/CNAME` contains `spatialdom.xyz`.
+4. After deploy, verify `/`, `/privacy`, `/tools`, and `/tools/coordinate-converter`.
+5. If a deep route fails on refresh, confirm `404.html` is present in the deployed Pages artifact and that the custom domain is still attached in the GitHub Pages settings.
+
+## Micro Tools Foundation
+
+The app now uses React Router with a split between the existing homepage and a scalable tools subsystem:
+
+- `/` keeps the homepage structure largely intact through `src/pages/HomePage.tsx`.
+- `/privacy` serves a lightweight privacy policy suitable for an early-stage frontend-only product.
+- `/tools` acts as the launcher for Spatialdom micro tools.
+- `/tools/coordinate-converter` is the first live tool.
+
+Architecture choices:
+
+- `src/shared/layout/MainLayout.tsx` wraps the site-wide shell, navigation, cursor, and footer.
+- `src/shared/layout/ToolLayout.tsx` provides a reusable tool-page structure without forcing ads onto every tool page.
+- `src/shared/ads/ToolAdSlot.tsx` is reserved for tool pages only; the homepage remains ad-free.
+- `src/lib/coordinates.ts` contains reusable coordinate conversion and validation logic for future geospatial tools.
+- `scripts/prepare-pages.mjs` copies `dist/index.html` to `dist/404.html` during builds so BrowserRouter routes work on GitHub Pages refreshes.
+
+Extending the tools system:
+
+1. Add a new page under `src/tools/<tool-name>/`.
+2. Add a route in `src/App.tsx`.
+3. Add a launcher card in `src/pages/ToolsPage.tsx`.
+4. Reuse `ToolLayout`, shared UI, and `ToolAdSlot` only where ads are intended.
 
 ## Project structure
 
@@ -78,11 +115,18 @@ src/
   data/
   hooks/
   lib/
+  pages/
   sections/
+  shared/
+    ads/
+    layout/
+  tools/
   styles/
+scripts/
+  prepare-pages.mjs
 ```
 
 ## Notes
 
-- The site is intentionally single-page for now.
-- Content lives in `src/data/siteContent.ts` for straightforward future expansion.
+- The homepage content still lives in `src/data/siteContent.ts` and the existing section files.
+- The site remains frontend only: no backend, no database, and no server-side rendering.
