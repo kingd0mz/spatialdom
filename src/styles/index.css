@@ -280,6 +280,60 @@
   .manifesto-line {
     border-top: 1px solid var(--color-border);
   }
+
+  .geojson-popup {
+    @apply min-w-[180px] space-y-2 text-sm;
+  }
+
+  .geojson-popup-row {
+    @apply grid gap-1;
+  }
+
+  .geojson-popup-key {
+    @apply text-xs uppercase tracking-[0.18em] text-text-muted;
+  }
+
+  .geojson-popup-value {
+    @apply break-words text-sm text-text-primary;
+  }
+
+  .geojson-popup-empty {
+    @apply text-sm text-text-body;
+  }
+
+  .maplibregl-popup-content {
+    @apply rounded-2xl border border-border-strong bg-surface-elevated text-text-primary shadow-panel;
+    padding: 0.9rem 1rem;
+  }
+
+  .maplibregl-popup-tip {
+    border-top-color: var(--color-surface-elevated) !important;
+    border-bottom-color: var(--color-surface-elevated) !important;
+  }
+
+  .maplibregl-ctrl-group {
+    overflow: hidden;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface-nav);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .maplibregl-ctrl-group button {
+    background: transparent;
+  }
+
+  .maplibregl-ctrl-group button:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .maplibregl-ctrl-attrib {
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    color: var(--color-text-secondary);
+  }
+
+  .maplibregl-ctrl-attrib a {
+    color: var(--color-text-primary);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -312,5 +366,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .maplibregl-ctrl button .maplibregl-ctrl-icon {
+    filter: invert(1);
   }
 }
