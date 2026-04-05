@@ -13,7 +13,7 @@ import {
   type Luzon1911Zone
 } from '../../shared/utils/coordinates';
 import ToolAdSlot from '../../shared/ads/ToolAdSlot';
-import ToolPageLayout from '../../shared/layout/ToolPageLayout';
+import ToolLayout from '../../shared/layout/ToolLayout';
 
 type ConversionMode = 'geographic-to-grid' | 'grid-to-geographic';
 
@@ -252,7 +252,7 @@ function CoordinateConverterPage() {
   const zoneDescription = LUZON_1911_ZONES.find((item) => item.code === zone);
 
   return (
-    <ToolPageLayout
+    <ToolLayout
       title="Coordinate Converter"
       intro="Convert Luzon 1911 geographic coordinates and Luzon 1911 grid coordinates for common Philippine workflows. Inputs support longitude/latitude with zone, or PTM X / PTM Y with zone, and angular values can be handled in decimal degrees or DMS."
     >
@@ -548,10 +548,10 @@ function CoordinateConverterPage() {
         </section>
 
         <div className="pt-2">
-          <ToolAdSlot />
+          <ToolAdSlot label="Bottom Banner" />
         </div>
       </div>
-    </ToolPageLayout>
+    </ToolLayout>
   );
 }
 

@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { navItems, portfolioUrl } from '../../data/siteContent';
 import { cn } from '../../lib/cn';
 import { fadeUp } from '../../lib/motion';
@@ -10,7 +11,11 @@ import Container from './Container';
 function Navbar() {
   const scrolled = useScrolled(20);
   const reducedMotion = useReducedMotion();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const isHome = location.pathname === '/';
+
+  const getSectionHref = (href: string) => (isHome ? href : `/${href}`);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,22 +40,25 @@ function Navbar() {
         )}
       >
         <div className="flex items-center justify-between gap-4">
-          <a
-            href="#hero"
+          <Link
+            to="/"
             className="inline-flex items-center gap-3 rounded-full text-sm font-medium text-text-primary transition-colors duration-300 hover:text-text-strong"
             aria-label="Go to Spatialdom hero section"
           >
             <BrandMark />
             <span className="text-sm uppercase tracking-[0.18em] text-text-strong">Spatialdom</span>
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-4 md:flex">
             <nav className="flex items-center gap-7" aria-label="Primary">
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="nav-link">
+                <a key={item.href} href={getSectionHref(item.href)} className="nav-link">
                   {item.label}
                 </a>
               ))}
+              <Link to="/tools" className="nav-link">
+                Tools
+              </Link>
             </nav>
 
             <a
@@ -106,13 +114,16 @@ function Navbar() {
               {navItems.map((item) => (
                 <a
                   key={item.href}
-                  href={item.href}
+                  href={getSectionHref(item.href)}
                   className="theme-mobile-link px-4 py-3"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
                 </a>
               ))}
+              <Link to="/tools" className="theme-mobile-link px-4 py-3" onClick={() => setMenuOpen(false)}>
+                Tools
+              </Link>
               <a
                 href={portfolioUrl}
                 target="_blank"
