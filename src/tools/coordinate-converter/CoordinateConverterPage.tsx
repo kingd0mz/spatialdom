@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import {
+  decimalDegreesToDms,
+  dmsToDecimalDegrees,
   formatDecimalDegrees,
+  formatDms,
   formatMeters,
-  latLonToUtm,
-  utmToLatLon
-} from '../../lib/coordinates';
-import ToolAdSlot from '../../shared/ads/ToolAdSlot';
+  geographicToLuzon1911Grid,
+  LUZON_1911_ZONES,
+  luzon1911GridToGeographic,
+  type AngularFormat,
+  type DmsAngle,
+  type Luzon1911Zone
+} from '../../shared/utils/coordinates';
 import ToolLayout from '../../shared/layout/ToolLayout';
 
-type Mode = 'decimal' | 'utm';
+type ConversionMode = 'geographic-to-grid' | 'grid-to-geographic';
 
 type ConversionState =
   | {
@@ -22,16 +28,30 @@ type ConversionState =
       error: string;
     };
 
-const defaultDecimal = {
-  latitude: '14.5995',
-  longitude: '120.9842'
+const defaultZone: Luzon1911Zone = 'III';
+
+const defaultDecimalGeo = {
+  longitude: '121.0244',
+  latitude: '14.5547'
 };
 
-const defaultUtm = {
-  zone: '51',
-  hemisphere: 'N' as 'N' | 'S',
-  easting: '281169.30',
-  northing: '1619286.90'
+const defaultGrid = {
+  x: '502658.309',
+  y: '1609221.604'
+};
+
+const defaultLongitudeDms: DmsAngle = {
+  degrees: '121',
+  minutes: '1',
+  seconds: '27.84',
+  direction: 'E'
+};
+
+const defaultLatitudeDms: DmsAngle = {
+  degrees: '14',
+  minutes: '33',
+  seconds: '16.92',
+  direction: 'N'
 };
 
 async function copyText(value: string) {
@@ -61,60 +81,110 @@ function parseNumber(value: string, label: string) {
   return parsed;
 }
 
-function getDecimalResult(latitudeValue: string, longitudeValue: string): ConversionState {
+function getGeographicInput(
+  angularFormat: AngularFormat,
+  zone: Luzon1911Zone,
+  decimalValues: typeof defaultDecimalGeo,
+  dmsValues: { longitude: DmsAngle; latitude: DmsAngle }
+) {
+  if (angularFormat === 'dd') {
+    return {
+      longitude: parseNumber(decimalValues.longitude, 'Longitude'),
+      latitude: parseNumber(decimalValues.latitude, 'Latitude'),
+      zone
+    };
+  }
+
+  return {
+    longitude: dmsToDecimalDegrees(dmsValues.longitude, 'longitude'),
+    latitude: dmsToDecimalDegrees(dmsValues.latitude, 'latitude'),
+    zone
+  };
+}
+
+function getGeographicToGridResult(
+  angularFormat: AngularFormat,
+  zone: Luzon1911Zone,
+  decimalValues: typeof defaultDecimalGeo,
+  dmsValues: { longitude: DmsAngle; latitude: DmsAngle }
+): ConversionState {
   try {
-    const latitude = parseNumber(latitudeValue, 'Latitude');
-    const longitude = parseNumber(longitudeValue, 'Longitude');
-    const utm = latLonToUtm(latitude, longitude);
-    const text = `Zone ${utm.zone}${utm.hemisphere} ${formatMeters(utm.easting)} mE ${formatMeters(utm.northing)} mN`;
+    const geographic = getGeographicInput(angularFormat, zone, decimalValues, dmsValues);
+    const grid = geographicToLuzon1911Grid(geographic);
+    const text = `Zone ${zone} | PTM X ${formatMeters(grid.x)} | PTM Y ${formatMeters(grid.y)}`;
 
     return {
       ok: true,
       text,
-      detailText: [`Zone: ${utm.zone}${utm.hemisphere}`, `Easting: ${formatMeters(utm.easting)} m`, `Northing: ${formatMeters(utm.northing)} m`].join('\n'),
+      detailText: [
+        `Zone: ${zone}`,
+        `Longitude: ${formatDecimalDegrees(geographic.longitude)}`,
+        `Latitude: ${formatDecimalDegrees(geographic.latitude)}`,
+        `PTM X: ${formatMeters(grid.x)}`,
+        `PTM Y: ${formatMeters(grid.y)}`
+      ].join('\n'),
       detail: [
-        { label: 'Zone', value: `${utm.zone}${utm.hemisphere}` },
-        { label: 'Easting', value: `${formatMeters(utm.easting)} m` },
-        { label: 'Northing', value: `${formatMeters(utm.northing)} m` }
+        { label: 'Zone', value: zone },
+        { label: 'PTM X', value: formatMeters(grid.x) },
+        { label: 'PTM Y', value: formatMeters(grid.y) },
+        { label: 'Longitude', value: formatDecimalDegrees(geographic.longitude) },
+        { label: 'Latitude', value: formatDecimalDegrees(geographic.latitude) }
       ]
     };
   } catch (error) {
     return {
       ok: false,
-      error: error instanceof Error ? error.message : 'Unable to convert decimal coordinates.'
+      error: error instanceof Error ? error.message : 'Unable to convert geographic coordinates.'
     };
   }
 }
 
-function getUtmResult(zoneValue: string, hemisphere: 'N' | 'S', eastingValue: string, northingValue: string): ConversionState {
+function getGridToGeographicResult(
+  zone: Luzon1911Zone,
+  gridValues: typeof defaultGrid
+): ConversionState {
   try {
-    const zone = parseNumber(zoneValue, 'UTM zone');
-    const easting = parseNumber(eastingValue, 'Easting');
-    const northing = parseNumber(northingValue, 'Northing');
-    const latLon = utmToLatLon(zone, hemisphere, easting, northing);
-    const text = `${formatDecimalDegrees(latLon.latitude)}, ${formatDecimalDegrees(latLon.longitude)}`;
+    const x = parseNumber(gridValues.x, 'PTM X');
+    const y = parseNumber(gridValues.y, 'PTM Y');
+    const geographic = luzon1911GridToGeographic({ zone, x, y });
+    const longitudeDms = formatDms(geographic.longitude, 'longitude');
+    const latitudeDms = formatDms(geographic.latitude, 'latitude');
+    const text = `${formatDecimalDegrees(geographic.longitude)}, ${formatDecimalDegrees(geographic.latitude)} (Zone ${zone})`;
 
     return {
       ok: true,
       text,
-      detailText: [`Latitude: ${formatDecimalDegrees(latLon.latitude)}`, `Longitude: ${formatDecimalDegrees(latLon.longitude)}`].join('\n'),
+      detailText: [
+        `Zone: ${zone}`,
+        `Longitude (DD): ${formatDecimalDegrees(geographic.longitude)}`,
+        `Latitude (DD): ${formatDecimalDegrees(geographic.latitude)}`,
+        `Longitude (DMS): ${longitudeDms}`,
+        `Latitude (DMS): ${latitudeDms}`
+      ].join('\n'),
       detail: [
-        { label: 'Latitude', value: formatDecimalDegrees(latLon.latitude) },
-        { label: 'Longitude', value: formatDecimalDegrees(latLon.longitude) }
+        { label: 'Zone', value: zone },
+        { label: 'Longitude (DD)', value: formatDecimalDegrees(geographic.longitude) },
+        { label: 'Latitude (DD)', value: formatDecimalDegrees(geographic.latitude) },
+        { label: 'Longitude (DMS)', value: longitudeDms },
+        { label: 'Latitude (DMS)', value: latitudeDms }
       ]
     };
   } catch (error) {
     return {
       ok: false,
-      error: error instanceof Error ? error.message : 'Unable to convert UTM coordinates.'
+      error: error instanceof Error ? error.message : 'Unable to convert PTM grid coordinates.'
     };
   }
 }
 
 function CoordinateConverterPage() {
-  const [mode, setMode] = useState<Mode>('decimal');
-  const [decimalInputs, setDecimalInputs] = useState(defaultDecimal);
-  const [utmInputs, setUtmInputs] = useState(defaultUtm);
+  const [mode, setMode] = useState<ConversionMode>('geographic-to-grid');
+  const [angularFormat, setAngularFormat] = useState<AngularFormat>('dd');
+  const [zone, setZone] = useState<Luzon1911Zone>(defaultZone);
+  const [decimalGeo, setDecimalGeo] = useState(defaultDecimalGeo);
+  const [longitudeDms, setLongitudeDms] = useState(defaultLongitudeDms);
+  const [latitudeDms, setLatitudeDms] = useState(defaultLatitudeDms);
+  const [gridValues, setGridValues] = useState(defaultGrid);
   const [copyStatus, setCopyStatus] = useState('');
 
   useEffect(() => {
@@ -136,9 +206,12 @@ function CoordinateConverterPage() {
   }, [copyStatus]);
 
   const result =
-    mode === 'decimal'
-      ? getDecimalResult(decimalInputs.latitude, decimalInputs.longitude)
-      : getUtmResult(utmInputs.zone, utmInputs.hemisphere, utmInputs.easting, utmInputs.northing);
+    mode === 'geographic-to-grid'
+      ? getGeographicToGridResult(angularFormat, zone, decimalGeo, {
+          longitude: longitudeDms,
+          latitude: latitudeDms
+        })
+      : getGridToGeographicResult(zone, gridValues);
 
   const handleCopy = async (value: string, successMessage: string) => {
     if (!result.ok) {
@@ -154,153 +227,277 @@ function CoordinateConverterPage() {
   };
 
   const handleReset = () => {
-    setDecimalInputs(defaultDecimal);
-    setUtmInputs(defaultUtm);
+    setZone(defaultZone);
+    setDecimalGeo(defaultDecimalGeo);
+    setLongitudeDms(defaultLongitudeDms);
+    setLatitudeDms(defaultLatitudeDms);
+    setGridValues(defaultGrid);
+    setAngularFormat('dd');
     setCopyStatus('');
   };
+
+  const handleDmsChange =
+    (field: 'longitude' | 'latitude', key: keyof DmsAngle) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const value = event.target.value;
+      const setter = field === 'longitude' ? setLongitudeDms : setLatitudeDms;
+
+      setter((current) => ({
+        ...current,
+        [key]: value
+      }));
+    };
+
+  const zoneDescription = LUZON_1911_ZONES.find((item) => item.code === zone);
 
   return (
     <ToolLayout
       title="Coordinate Converter"
-      intro="Convert between decimal latitude/longitude and UTM coordinates in the browser. The interface is optimized for quick field checks, mobile input, and future reuse across additional spatial tools."
+      intro="Convert Luzon 1911 geographic coordinates and Luzon 1911 grid coordinates for common Philippine workflows. Inputs support longitude/latitude with zone, or PTM X / PTM Y with zone, and angular values can be handled in decimal degrees or DMS."
+      showAds
     >
-      <div className="mx-auto grid max-w-4xl gap-6">
+      <div className="mx-auto grid max-w-5xl gap-6">
         <section className="panel rounded-[2rem] p-4 sm:p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-end">
             <div className="space-y-1">
-              <p className="section-label">Input Mode</p>
-              <h2 className="text-xl font-semibold text-text-primary">Select source coordinates</h2>
+              <p className="section-label">Conversion Type</p>
+              <h2 className="text-xl font-semibold text-text-primary">Luzon 1911 geographic and grid</h2>
+              <p className="text-sm leading-6 text-text-body">
+                Use `Lon, Lat, Zone` for geographic input or `PTM X, PTM Y, Zone` for grid input.
+              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-2 rounded-2xl border border-border-strong bg-surface-soft p-1">
               <button
                 type="button"
-                onClick={() => setMode('decimal')}
-                className={mode === 'decimal' ? 'interactive-accent px-4 py-2.5' : 'interactive-outline px-4 py-2.5'}
+                onClick={() => setMode('geographic-to-grid')}
+                className={
+                  mode === 'geographic-to-grid'
+                    ? 'interactive-accent px-4 py-2.5'
+                    : 'interactive-outline px-4 py-2.5'
+                }
               >
-                Lat / Lon
+                Geo to Grid
               </button>
               <button
                 type="button"
-                onClick={() => setMode('utm')}
-                className={mode === 'utm' ? 'interactive-accent px-4 py-2.5' : 'interactive-outline px-4 py-2.5'}
+                onClick={() => setMode('grid-to-geographic')}
+                className={
+                  mode === 'grid-to-geographic'
+                    ? 'interactive-accent px-4 py-2.5'
+                    : 'interactive-outline px-4 py-2.5'
+                }
               >
-                UTM
+                Grid to Geo
               </button>
             </div>
+
+            <label className="space-y-2">
+              <span className="text-sm text-text-secondary">Zone</span>
+              <select
+                value={zone}
+                onChange={(event) => setZone(event.target.value as Luzon1911Zone)}
+                className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
+              >
+                {LUZON_1911_ZONES.map((item) => (
+                  <option key={item.code} value={item.code}>
+                    {item.label} ({item.centralMeridian}°E)
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
+
+          {zoneDescription ? (
+            <p className="mt-4 text-sm text-text-body">
+              Active zone: <span className="text-text-secondary">{zoneDescription.label}</span> with central meridian{' '}
+              <span className="text-text-secondary">{zoneDescription.centralMeridian}°E</span>.
+            </p>
+          ) : null}
         </section>
 
-        <section className="panel rounded-[2rem] p-5 sm:p-6">
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <p className="section-label">{mode === 'decimal' ? 'Latitude / Longitude' : 'Universal Transverse Mercator'}</p>
-              <h2 className="text-2xl font-semibold text-text-primary">
-                {mode === 'decimal' ? 'Decimal degrees input' : 'UTM input'}
-              </h2>
-              <p className="text-sm leading-6 text-text-body">
-                {mode === 'decimal'
-                  ? 'Enter decimal coordinates to produce a UTM result instantly.'
-                  : 'Enter zone, hemisphere, easting, and northing to convert back to decimal latitude and longitude.'}
-              </p>
-            </div>
+        {mode === 'geographic-to-grid' ? (
+          <section className="panel rounded-[2rem] p-5 sm:p-6">
+            <div className="space-y-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="space-y-2">
+                  <p className="section-label">Luzon 1911 Geographic</p>
+                  <h2 className="text-2xl font-semibold text-text-primary">Longitude / latitude input</h2>
+                  <p className="text-sm leading-6 text-text-body">
+                    Enter angular coordinates in decimal degrees or degrees-minutes-seconds, then convert to PTM X and
+                    PTM Y.
+                  </p>
+                </div>
 
-            {mode === 'decimal' ? (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Latitude</span>
-                  <input
-                    value={decimalInputs.latitude}
-                    onChange={(event) =>
-                      setDecimalInputs((current) => ({ ...current, latitude: event.target.value }))
-                    }
-                    className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
-                    inputMode="decimal"
-                    placeholder="e.g. 14.5995"
-                  />
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Longitude</span>
-                  <input
-                    value={decimalInputs.longitude}
-                    onChange={(event) =>
-                      setDecimalInputs((current) => ({ ...current, longitude: event.target.value }))
-                    }
-                    className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
-                    inputMode="decimal"
-                    placeholder="e.g. 120.9842"
-                  />
-                </label>
-              </div>
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Zone</span>
-                  <input
-                    value={utmInputs.zone}
-                    onChange={(event) => setUtmInputs((current) => ({ ...current, zone: event.target.value }))}
-                    className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
-                    inputMode="numeric"
-                    placeholder="e.g. 51"
-                  />
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Hemisphere</span>
-                  <select
-                    value={utmInputs.hemisphere}
-                    onChange={(event) =>
-                      setUtmInputs((current) => ({
-                        ...current,
-                        hemisphere: event.target.value as 'N' | 'S'
-                      }))
-                    }
-                    className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                <div className="grid grid-cols-2 gap-2 rounded-2xl border border-border-strong bg-surface-soft p-1">
+                  <button
+                    type="button"
+                    onClick={() => setAngularFormat('dd')}
+                    className={angularFormat === 'dd' ? 'interactive-accent px-4 py-2.5' : 'interactive-outline px-4 py-2.5'}
                   >
-                    <option value="N">Northern</option>
-                    <option value="S">Southern</option>
-                  </select>
-                </label>
+                    Decimal Degrees
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAngularFormat('dms')}
+                    className={angularFormat === 'dms' ? 'interactive-accent px-4 py-2.5' : 'interactive-outline px-4 py-2.5'}
+                  >
+                    DMS
+                  </button>
+                </div>
+              </div>
 
+              {angularFormat === 'dd' ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="space-y-2">
+                    <span className="text-sm text-text-secondary">Longitude</span>
+                    <input
+                      value={decimalGeo.longitude}
+                      onChange={(event) =>
+                        setDecimalGeo((current) => ({ ...current, longitude: event.target.value }))
+                      }
+                      className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                      inputMode="decimal"
+                      placeholder="e.g. 121.0244"
+                    />
+                  </label>
+
+                  <label className="space-y-2">
+                    <span className="text-sm text-text-secondary">Latitude</span>
+                    <input
+                      value={decimalGeo.latitude}
+                      onChange={(event) =>
+                        setDecimalGeo((current) => ({ ...current, latitude: event.target.value }))
+                      }
+                      className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                      inputMode="decimal"
+                      placeholder="e.g. 14.5547"
+                    />
+                  </label>
+                </div>
+              ) : (
+                <div className="grid gap-5 lg:grid-cols-2">
+                  {[
+                    { label: 'Longitude', value: longitudeDms, axis: 'longitude' as const, directions: ['E', 'W'] },
+                    { label: 'Latitude', value: latitudeDms, axis: 'latitude' as const, directions: ['N', 'S'] }
+                  ].map((item) => (
+                    <div key={item.axis} className="theme-card rounded-3xl p-4">
+                      <p className="mb-4 text-sm font-medium text-text-secondary">{item.label}</p>
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        <label className="space-y-2">
+                          <span className="text-xs uppercase tracking-[0.18em] text-text-muted">Deg</span>
+                          <input
+                            value={item.value.degrees}
+                            onChange={handleDmsChange(item.axis, 'degrees')}
+                            className="w-full rounded-2xl border border-border-strong bg-surface px-3 py-2.5 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                            inputMode="numeric"
+                          />
+                        </label>
+                        <label className="space-y-2">
+                          <span className="text-xs uppercase tracking-[0.18em] text-text-muted">Min</span>
+                          <input
+                            value={item.value.minutes}
+                            onChange={handleDmsChange(item.axis, 'minutes')}
+                            className="w-full rounded-2xl border border-border-strong bg-surface px-3 py-2.5 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                            inputMode="numeric"
+                          />
+                        </label>
+                        <label className="space-y-2">
+                          <span className="text-xs uppercase tracking-[0.18em] text-text-muted">Sec</span>
+                          <input
+                            value={item.value.seconds}
+                            onChange={handleDmsChange(item.axis, 'seconds')}
+                            className="w-full rounded-2xl border border-border-strong bg-surface px-3 py-2.5 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                            inputMode="decimal"
+                          />
+                        </label>
+                        <label className="space-y-2">
+                          <span className="text-xs uppercase tracking-[0.18em] text-text-muted">Dir</span>
+                          <select
+                            value={item.value.direction}
+                            onChange={handleDmsChange(item.axis, 'direction')}
+                            className="w-full rounded-2xl border border-border-strong bg-surface px-3 py-2.5 text-sm text-text-primary outline-none transition focus:border-border-hover"
+                          >
+                            {item.directions.map((direction) => (
+                              <option key={direction} value={direction}>
+                                {direction}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="interactive-outline inline-flex items-center justify-center"
+                >
+                  Clear / reset
+                </button>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <section className="panel rounded-[2rem] p-5 sm:p-6">
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <p className="section-label">Luzon 1911 Grid</p>
+                <h2 className="text-2xl font-semibold text-text-primary">PTM X / PTM Y input</h2>
+                <p className="text-sm leading-6 text-text-body">
+                  Enter projected coordinates and zone to convert back to Luzon 1911 longitude and latitude.
+                </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
                 <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Easting (m)</span>
+                  <span className="text-sm text-text-secondary">PTM X</span>
                   <input
-                    value={utmInputs.easting}
-                    onChange={(event) => setUtmInputs((current) => ({ ...current, easting: event.target.value }))}
+                    value={gridValues.x}
+                    onChange={(event) => setGridValues((current) => ({ ...current, x: event.target.value }))}
                     className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
                     inputMode="decimal"
-                    placeholder="e.g. 281169.30"
+                    placeholder="e.g. 502658.309"
                   />
                 </label>
 
                 <label className="space-y-2">
-                  <span className="text-sm text-text-secondary">Northing (m)</span>
+                  <span className="text-sm text-text-secondary">PTM Y</span>
                   <input
-                    value={utmInputs.northing}
-                    onChange={(event) => setUtmInputs((current) => ({ ...current, northing: event.target.value }))}
+                    value={gridValues.y}
+                    onChange={(event) => setGridValues((current) => ({ ...current, y: event.target.value }))}
                     className="w-full rounded-2xl border border-border-strong bg-surface-soft px-4 py-3 text-sm text-text-primary outline-none transition focus:border-border-hover"
                     inputMode="decimal"
-                    placeholder="e.g. 1619286.90"
+                    placeholder="e.g. 1609221.604"
                   />
                 </label>
               </div>
-            )}
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <button type="button" onClick={handleReset} className="interactive-outline inline-flex items-center justify-center">
-                Clear / reset
-              </button>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="interactive-outline inline-flex items-center justify-center"
+                >
+                  Clear / reset
+                </button>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section className="panel rounded-[2rem] p-5 sm:p-6">
           <div className="space-y-5">
             <div className="space-y-2">
               <p className="section-label">Output</p>
               <h2 className="text-2xl font-semibold text-text-primary">
-                {mode === 'decimal' ? 'Converted UTM coordinates' : 'Converted latitude / longitude'}
+                {mode === 'geographic-to-grid'
+                  ? 'Luzon 1911 Grid result'
+                  : 'Luzon 1911 Geographic result'}
               </h2>
             </div>
 
@@ -311,7 +508,7 @@ function CoordinateConverterPage() {
                   <p className="mt-2 break-words text-lg font-medium text-text-primary sm:text-xl">{result.text}</p>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                   {result.detail.map((item) => (
                     <div key={item.label} className="theme-card rounded-3xl p-4">
                       <p className="text-sm text-text-secondary">{item.label}</p>
@@ -349,10 +546,6 @@ function CoordinateConverterPage() {
             </div>
           </div>
         </section>
-
-        <div className="pt-2">
-          <ToolAdSlot label="Bottom Banner" />
-        </div>
       </div>
     </ToolLayout>
   );
