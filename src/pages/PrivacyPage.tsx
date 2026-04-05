@@ -1,6 +1,16 @@
+import { useEffect } from 'react';
 import Container from '../components/layout/Container';
 
 function PrivacyPage() {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = 'Privacy Policy | Spatialdom';
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, []);
+
   return (
     <main className="pb-16 pt-32 sm:pt-36">
       <Container className="max-w-4xl">
@@ -50,7 +60,8 @@ function PrivacyPage() {
               <section className="space-y-2">
                 <h2 className="text-lg font-semibold text-text-primary">Contact</h2>
                 <p>
-                  For privacy-related questions, use the published Spatialdom contact details on the main site.
+                  For privacy-related questions, use the published Spatialdom contact details on the main site. A
+                  dedicated privacy contact method may be added later as the product ecosystem expands.
                 </p>
               </section>
             </div>

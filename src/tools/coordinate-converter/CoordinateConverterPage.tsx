@@ -6,7 +6,7 @@ import {
   utmToLatLon
 } from '../../lib/coordinates';
 import ToolAdSlot from '../../shared/ads/ToolAdSlot';
-import ToolPageLayout from '../../shared/layout/ToolPageLayout';
+import ToolLayout from '../../shared/layout/ToolLayout';
 
 type Mode = 'decimal' | 'utm';
 
@@ -160,7 +160,7 @@ function CoordinateConverterPage() {
   };
 
   return (
-    <ToolPageLayout
+    <ToolLayout
       title="Coordinate Converter"
       intro="Convert between decimal latitude/longitude and UTM coordinates in the browser. The interface is optimized for quick field checks, mobile input, and future reuse across additional spatial tools."
     >
@@ -354,7 +354,7 @@ function CoordinateConverterPage() {
           <ToolAdSlot />
         </div>
       </div>
-    </ToolPageLayout>
+    </ToolLayout>
   );
 }
 
